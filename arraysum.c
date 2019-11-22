@@ -25,10 +25,8 @@ long add_serial(const char *numbers) {
 
 long add_parallel(const char *numbers) {
     long sum = 0;
-#pragma omp for schedule(static,1)
-    for (int i=0; i< Num_To_Add; i++) {
-        sum += numbers[i];
-    }
+#pragma omp parallel for reduction(+:sum)
+    for(int n=0; n<Num_To_Add; ++n) sum += numbers[n];
 
     return sum;
 }
